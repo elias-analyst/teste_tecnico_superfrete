@@ -24,12 +24,12 @@ WITH rank_query AS (
 )
    
 SELECT 
-	category
-	, title
-	, frequency
+  category
+  , title
+  , frequency
 FROM 
-	rank_query
+  rank_query
 WHERE
-	rank = 2
+  rank = 2
 ORDER BY 
   category ASC
