@@ -3,7 +3,7 @@ WITH rank_query AS (
     LOWER(c.name) AS category
     , LOWER(f.title) AS title
     , COUNT(r.rental_id) as frequency
-    , ROW_NUMBER() OVER (PARTITION BY c.name ORDER BY COUNT(r.rental_id) DESC, f.title asc ) AS rank
+    , ROW_NUMBER() OVER (PARTITION BY c.name ORDER BY COUNT(r.rental_id) DESC, f.title ASC) AS rank
   FROM 
     film AS f
   JOIN 
