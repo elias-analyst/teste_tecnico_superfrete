@@ -1,0 +1,35 @@
+WITH rank_query AS (
+  SELECT 
+    LOWER(c.name) AS category
+    , LOWER(f.title) AS title
+    , COUNT(r.rental_id) as frequency
+    , ROW_NUMBER() OVER (PARTITION BY c.name ORDER BY COUNT(r.rental_id) DESC, f.title asc ) AS rank
+  FROM 
+      film AS f
+  JOIN 
+      film_category AS fc ON f.film_id = fc.film_id
+  JOIN 
+      category AS c ON fc.category_id = c.category_id
+  Join 
+      inventory AS i ON i.film_id = f.film_id
+  JOIN
+      rental AS r ON i.inventory_id =  r.inventory_id
+  WHERE
+      DATE(r.rental_date) >= '2005-06-15'
+  GROUP BY 
+      f.title
+  ORDER BY 
+      COUNT(r.rental_id) DESC
+      , f.title ASC
+)
+   
+SELECT 
+	category
+	, title
+	, frequency
+FROM 
+	rank_query
+WHERE
+	rank = 2
+ORDER BY 
+  category ASC
